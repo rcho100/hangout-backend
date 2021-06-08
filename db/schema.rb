@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_155251) do
+ActiveRecord::Schema.define(version: 2021_06_08_155623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 2021_06_08_155251) do
     t.index ["user_id"], name: "index_hangouts_on_user_id"
   end
 
+  create_table "rsvps", force: :cascade do |t|
+    t.bigint "hangout_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hangout_id"], name: "index_rsvps_on_hangout_id"
+    t.index ["user_id"], name: "index_rsvps_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "user_photo"
@@ -38,4 +47,6 @@ ActiveRecord::Schema.define(version: 2021_06_08_155251) do
   end
 
   add_foreign_key "hangouts", "users"
+  add_foreign_key "rsvps", "hangouts"
+  add_foreign_key "rsvps", "users"
 end
